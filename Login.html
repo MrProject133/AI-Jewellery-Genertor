@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Image Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f8f9fa;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1000px;
+      width: 90%;
+      background-color: #ffffff;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .left-pane {
+      flex: 1;
+      padding: 50px;
+    }
+
+    .left-pane h1 {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+
+    .left-pane p {
+      font-size: 0.95em;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #2f0494;
+      border-radius: 8px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85em;
+      margin-bottom: 20px;
+    }
+
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .signin-button {
+      background-color: purple;
+      color: white;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .signin-button:hover {
+      background-color: #5a4cd2;
+    }
+
+    .signup-link {
+      text-align: center;
+      font-size: 0.85em;
+      margin-top: 15px;
+    }
+
+    .signup-link a {
+      color: #6c5ce7;
+      text-decoration: none;
+    }
+
+    .right-pane {
+      flex: 1;
+      background: url('./3d-render-secure-login-password-illustration.jpg') center/cover no-repeat;
+      min-height: 400px;
+    }
+
+    .credentials-box {
+      background-color: #f1f1f1;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 0.9em;
+    }
+
+    .credentials-box p {
+      margin-bottom: 8px;
+    }
+
+    .credentials-box span {
+      font-weight: bold;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .right-pane {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-pane">
+      <h1>Hello, Welcome to <span style="color: purple; font-weight: bolder;">AI Jewellery Generator</span></h1>
+      <p>Where your sparkle begins – log in to create timeless treasures.</p>
+
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Enter Username" />
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Enter Password" />
+      </div>
+      
+      <button class="signin-button" onclick="handleLogin()">Log In</button>
+
+      <div class="credentials-box">
+        <p><span>freeuser</span> / freepass (Personal)</p>
+        <p><span>corpuser_jewelry</span> / corppassA (Corporate)</p>
+        <p><span>corpuser_style</span> / corppassB (Corporate)</p>
+        <p><span>corpuser_mock</span> / corppassC (Corporate)</p>
+      </div>
+    </div>
+    <div class="right-pane"></div>
+  </div>
+
+  <script>
+    function handleLogin() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const validUsers = {
+        "freeuser": "freepass",
+        "corpuser_jewelry": "corppassA",
+        "corpuser_style": "corppassB",
+        "corpuser_mock": "corppassC"
+      };
+
+      if (validUsers[username] === password) {
+        alert("Login successful! Redirecting...");
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid username or password.");
+      }
+    }
+  </script>
+</body>
+</html>

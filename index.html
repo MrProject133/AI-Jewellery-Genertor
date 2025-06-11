@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Jewellery Generator</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css for hero animation -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <!-- AOS (Animate on Scroll) CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"/>
+  <style>
+    .jewel-grid img {
+      height: 300px;
+      width: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .jewel-grid img:hover {
+      transform: scale(1.05);
+    }
+    .nav-item {
+      color: purple;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header/Navbar -->
+<header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+  <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+    <span class="fs-3" style="color: rgb(104, 2, 104);">AI Jewellery Generator</span>
+  </a>
+  <ul class="nav nav-pills">
+    <li class="nav-item"><a href="./Login.html" class="nav-link active" style="background-color: purple;" aria-current="page">Login</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" style="color: black;" >Features</a></li>
+        <li class="nav-item"><a href="./AboutUs.html" class="nav-link"  style="background-color: purple; color: white;">About-Us</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" style="color: black;">Pricing</a></li>
+    <li class="nav-item"><a href="#" class="nav-link" style="color: black;">FAQs</a></li>
+  </ul>
+</header>
+
+<!-- Hero Section (on-load animation only) -->
+<section class="py-5" style="background-color: #2d4eff;">
+  <div class="container px-4 px-lg-5">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-white animate__animated animate__fadeInLeft">
+        <h1 class="fw-bold mb-3">AI Jewelry Generator</h1>
+        <p class="mb-4">
+          Design dazzling and unique jewelry online with AI jewelry generator of Fotor. It supports create classic and 3D stylish jewelry from text. Get customized jewelry in minutes!
+        </p>
+        <a href="./design.html" class="btn btn-light fw-semibold px-4 py-2" style="background-color: purple; border: none; color: white;">Design Jewelry Now</a>
+      </div>
+      <div class="col-lg-6 text-center mt-4 mt-lg-0 animate__animated animate__fadeInRight">
+        <img src="./hero image.jpg" alt="Jewelry Preview" class="img-fluid rounded shadow" style="max-width: 100%; width: 500px; height: auto;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Jewelry Showcase Section -->
+<section class="py-5">
+  <div class="container text-center" data-aos="fade-up">
+    <h2 class="fw-bold mb-3">Start with <span style="color: purple;">AI Jewelry Generator</span></h2>
+    <p class="mb-5">
+      Have you ever fantasized about being a jewelry designer?... <br>
+      Come and check the product design by AI.
+    </p>
+    <div class="row g-4 jewel-grid">
+      <div class="col-sm-6 col-md-4" data-aos="zoom-in"><img src="./img-1.jpeg" alt="Jewelry 1" class="img-fluid rounded shadow" /></div>
+      <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="100"><img src="./img-2.jpeg" alt="Jewelry 2" class="img-fluid rounded shadow" /></div>
+      <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="200"><img src="./img-3.jpeg" alt="Jewelry 3" class="img-fluid rounded shadow" /></div>
+      <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="300"><img src="./img-4.jpeg" alt="Jewelry 4" class="img-fluid rounded shadow" /></div>
+      <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="400"><img src="./img-5.jpeg" alt="Jewelry 5" class="img-fluid rounded shadow" /></div>
+      <div class="col-sm-6 col-md-4" data-aos="zoom-in" data-aos-delay="500"><img src="./img-6.jpeg" alt="Jewelry 6" class="img-fluid rounded shadow" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- Text to Jewelry Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center" data-aos="fade-right">
+        <img src="./text to jewellery.jpg" alt="AI Prompt Jewelry" class="img-fluid rounded shadow">
+      </div>
+      <div class="col-md-6" data-aos="fade-left">
+        <h2 class="fw-bold mb-3">Create Dazzling Jewelry from Text</h2>
+        <p>Want to design a unique piece of jewelry...</p>
+        <p>Enter a text prompt to describe the jewelry...</p>
+        <a href="./design.html" class="btn btn-primary mt-3" style="background-color: purple; border: none;">Design Jewelry Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D Jewelry Section -->
+<section class="py-5 bg-white">
+  <div class="container py-4">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+        <h2 class="fw-bold mb-4">Customize 3D Stylish Jewelry in Minutes</h2>
+        <p>Powered by the cutting-edge jewelry generator model...</p>
+        <p>With our ai image generator, you can design...</p>
+        <a href="./design.html" class="btn btn-primary mt-3" style="background-color: purple; border: none;">Design Jewelry Now</a>
+      </div>
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <img src="./text to jewellery-2.jpg" alt="3D Jewelry Generator" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How-To Section -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 text-center order-1 order-lg-0" data-aos="fade-right">
+        <img src="./text to image 4.webp" alt="Jewelry AI Guide" class="img-fluid rounded shadow">
+      </div>
+      <div class="col-lg-6 order-0 order-lg-1" data-aos="fade-left">
+        <h2 class="fw-bold mb-4">How to Design Jewelry with AI?</h2>
+        <ol class="ps-3" style="font-size: 16px; color: #333;">
+          <li class="mb-3">Click the “Design Jewelry Now” button...</li>
+          <li class="mb-3">Type your descriptions of the jewelry design...</li>
+          <li class="mb-3">Click the "Generate" button and tweak details...</li>
+          <li class="mb-3">Finally, click the download icon to save...</li>
+        </ol>
+        <a href="./design.html" class="btn btn-primary mt-3" style="background-color: purple; border: none;">Design Jewelry Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light" data-aos="fade-up">
+  <div class="container px-4 py-5">
+    <h2 class="pb-2 border-bottom text-center fw-bold" style="color:black;">Powerful Features to Craft Stunning Jewelry</h2>
+    <div class="row row-cols-1 row-cols-md-2 align-items-md-center g-5 py-5">
+      <div class="col d-flex flex-column align-items-start gap-3" data-aos="fade-right">
+        <h2 class="fw-bold text-body-emphasis">AI-Powered Jewelry Design Made Easy</h2>
+        <p class="text-body-secondary">Whether you're designing elegant necklaces or futuristic rings...</p>
+        <a href="./design.html" class="btn btn-lg text-white" style="background-color: purple; border: none;">Design Jewelry Now</a>
+      </div>
+      <div class="col" data-aos="fade-left">
+        <div class="row row-cols-1 row-cols-sm-2 g-4">
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-white fs-4 rounded-3" style="background-color: purple; width: 48px; height: 48px;">
+              <i class="bi bi-gem"></i>
+            </div>
+            <h4 class="fw-semibold mb-0">Gemstone Style Generation</h4>
+            <p>Create unique gemstone cuts using text prompts.</p>
+          </div>
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-white fs-4 rounded-3" style="background-color: purple; width: 48px; height: 48px;">
+              <i class="bi bi-pencil"></i>
+            </div>
+            <h4 class="fw-semibold mb-0">Style Customization</h4>
+            <p>Choose classic, modern, or 3D styles.</p>
+          </div>
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-white fs-4 rounded-3" style="background-color: purple; width: 48px; height: 48px;">
+              <i class="bi bi-lightning-charge"></i>
+            </div>
+            <h4 class="fw-semibold mb-0">Instant Design Results</h4>
+            <p>Get visuals within seconds.</p>
+          </div>
+          <div class="col d-flex flex-column gap-2">
+            <div class="feature-icon-small d-inline-flex align-items-center justify-content-center text-white fs-4 rounded-3" style="background-color: purple; width: 48px; height: 48px;">
+              <i class="bi bi-download"></i>
+            </div>
+            <h4 class="fw-semibold mb-0">Download & Share</h4>
+            <p>Save and share your jewelry instantly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-3 my-4">
+  <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+    <li class="nav-item"><a href="./index.html" class="nav-link px-2 text-body-secondary">Home</a></li>
+    <li class="nav-item"><a href="./index.html" class="nav-link px-2 text-body-secondary">Features</a></li>
+    <li class="nav-item"><a href="./Login.html" class="nav-link px-2 text-body-secondary">Login</a></li>
+    <li class="nav-item"><a href="./design.html" class="nav-link px-2 text-body-secondary">Generate</a></li>
+    <li class="nav-item"><a href="./AboutUs.html" class="nav-link px-2 text-body-secondary">About</a></li>
+  </ul>
+  <p class="text-center text-body-secondary">© AI Jewellery Generator</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,
+    once: true
+  });
+</script>
+</body>
+</html>

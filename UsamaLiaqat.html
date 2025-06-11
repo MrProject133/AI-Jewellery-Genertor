@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Image Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border: 1px solid #eee;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: calc(100% - 22px); /* Adjust for padding */
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        button {
+            display: inline-block; /* Allow multiple buttons on a line */
+            padding: 10px 20px;
+            background-color: #5cb85c; /* Success green */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            margin-right: 5px; /* Space between buttons */
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        button:disabled {
+             background-color: #aaa;
+             cursor: not-allowed;
+         }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .info { background-color: #d9edf7; color: #31708f; border: 1px solid #bce8f1; }
+        .error { background-color: #f2dede; color: #a94442; border: 1px solid #ebccd1; }
+        .success { background-color: #dff0d8; color: #3c763d; border: 1px solid #d6e9c6; }
+        .warning { background-color: #fcf8e3; color: #8a6d3b; border: 1px solid #faebcc; }
+
+        #loggedInInfo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #loggedInInfo strong {
+            color: #007bff; /* Primary blue */
+        }
+
+        .tier-display {
+            display: inline-block;
+            padding: 4px 8px;
+            margin-left: 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+            color: white;
+            vertical-align: middle;
+            text-transform: capitalize;
+        }
+         .tier-display.personal { background-color: #007bff; } /* Blue for Personal */
+         .tier-display.corporate { background-color: #f0ad4e; } /* Orange for Corporate */
+
+        #upgradeSection button {
+             background-color: #f0ad4e; /* Warning orange */
+             color: #333;
+             font-weight: bold;
+        }
+        #upgradeSection button:hover { background-color: #ec971f; }
+
+
+        #corporateModelSelection h3 { margin-bottom: 10px;}
+        #corporateModelSelection .model-buttons button {
+            background-color: #0275d8; /* Primary blue */
+            color: white;
+            margin-right: 5px; /* Space between buttons */
+            margin-top: 5px; /* Space above buttons if they wrap */
+            padding: 8px 12px; /* Smaller padding */
+            font-size: 0.9rem;
+        }
+        #corporateModelSelection .model-buttons button:hover { background-color: #025aa5; }
+
+        .current-model-info {
+            margin-bottom: 15px;
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        #generatedImage {
+            display: block; /* Make image a block element */
+            margin: 20px auto; /* Center the image */
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        #imageInfo {
+             text-align: center;
+             color: #555;
+             font-size: 0.9em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Image Generation Service</h1>
+
+        <!-- Login Section -->
+        <div id="loginSection">
+            <h2>Account Login</h2>
+            <p style="font-size: 0.9em; color: #666;">Use these credentials for demo:</p>
+            <p style="font-size: 0.9em; color: #666;"><strong>freeuser</strong> / freepass (Personal)<br>
+               <strong>corpuser_jewelry</strong> / corppassA (Corporate)<br>
+               <strong>corpuser_style</strong> / corppassB (Corporate)<br>
+               <strong>corpuser_mock</strong> / corppassC (Corporate)</p>
+
+            <div class="section">
+                <input type="text" id="username" placeholder="Username" value="freeuser">
+                <input type="password" id="password" placeholder="Password" value="freepass">
+                <button onclick="handleLogin()">Login</button>
+                <div id="loginMessage" class="message hidden"></div>
+            </div>
+        </div>
+
+        <!-- Main App Content -->
+        <div id="appContent" class="hidden">
+            <div id="loggedInInfo">
+                 Logged in as: <strong id="loggedInUserName"></strong> <span id="userTierDisplay" class="tier-display"></span>
+                 <button onclick="handleLogout()" style="background-color: #f0ad4e; margin-left: 15px; padding: 8px 15px; font-size: 0.9rem; margin-top: 0;">Logout</button> <!-- Warning color for logout -->
+            </div>
+
+            <div id="generationSection" class="section">
+                <h2>Generate Image</h2>
+                 <p id="modelInfo" class="current-model-info">Using model: <strong id="currentModelName"></strong></p>
+
+                <input type="text" id="prompt" placeholder="Enter your image description here...">
+
+                <button id="generateBtn">Generate</button>
+                <div id="generationMessage" class="message hidden"></div>
+            </div>
+
+             <!-- Mock Subscription Upgrade Section (Hidden for Corporate) -->
+            <div id="upgradeSection" class="section hidden">
+                <h2>Unlock More Options!</h2>
+                <p style="color: #666;">You're on the Personal Tier. Upgrade for access to advanced models and LoRAs.</p>
+                <button id="upgradeButton" onclick="mockUpgrade()">Upgrade to Corporate (Mock)</button>
+                <div id="upgradeMessage" class="message hidden"></div>
+            </div>
+
+            <!-- Corporate Model Selection Section (Hidden for Personal Tier) -->
+            <div id="corporateModelSelection" class="section hidden">
+                <h2>Corporate Model Selector</h2>
+                <p class="current-model-info">Current Selection: <strong id="currentCorporateModelDisplay">Loading...</strong></p>
+                <h3>Choose Generator:</h3>
+                <div class="model-buttons" id="corporateModelButtons">
+                    <!-- Buttons will be populated by JS -->
+                </div>
+                 <div id="corporateModelSelectionMessage" class="message hidden"></div>
+            </div>
+
+            <div class="section">
+                 <h2>Generated Result</h2>
+                 <img id="generatedImage" src="#" alt="Generated Image Placeholder" style="display: none;">
+                 <p id="imageInfo" class="current-model-info">Image will appear here.</p>
+            </div>
+
+
+        </div> <!-- End appContent -->
+
+    </div> <!-- End container -->
+
+
+    <script>
+        // IMPORTANT: REPLACE THIS WITH THE PUBLIC URL FROM YOUR RUNNING PYTHON SERVER'S NGROK OUTPUT
+        // Example: const API_BASE_URL = "https://abcdef123456.ngrok-free.app";
+        const API_BASE_URL = "https://550a-34-82-7-182.ngrok-free.app"; // <-- REPLACE THIS!
+
+        // --- DOM Elements ---
+        const loginSection = document.getElementById('loginSection');
+        const appContent = document.getElementById('appContent');
+
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginMessage = document.getElementById('loginMessage');
+        const loggedInUserName = document.getElementById('loggedInUserName');
+        const userTierDisplay = document.getElementById('userTierDisplay');
+
+        const generationSection = document.getElementById('generationSection');
+        const promptInput = document.getElementById('prompt');
+        const generateBtn = document.getElementById('generateBtn');
+        const generationMessage = document.getElementById('generationMessage');
+        const modelInfo = document.getElementById('modelInfo');
+        const currentModelNameSpan = document.getElementById('currentModelName');
+
+        const upgradeSection = document.getElementById('upgradeSection');
+        const upgradeButton = document.getElementById('upgradeButton');
+        const upgradeMessage = document.getElementById('upgradeMessage');
+
+        const corporateModelSelectionDiv = document.getElementById('corporateModelSelection');
+        const corporateModelButtonsDiv = document.getElementById('corporateModelButtons');
+        const currentCorporateModelDisplay = document.getElementById('currentCorporateModelDisplay');
+        const corporateModelSelectionMessage = document.getElementById('corporateModelSelectionMessage');
+
+        const generatedImage = document.getElementById('generatedImage');
+        const imageInfo = document.getElementById('imageInfo');
+
+
+        // --- App State ---
+        let isLoggedIn = false;
+        let currentUserId = null;
+        let currentUserTier = null;
+        let currentCorporateModelKey = null; // Store the internal key like 'Jewelry_LoRA'
+        let lastGeneratedImageUrl = null; // To keep track of the last blob URL
+
+
+        // --- Constants (Must match server's AVAILABLE_CORPORATE_MODELS keys/names) ---
+        const CORPORATE_MODELS_MAP = {
+             'Jewelry_LoRA': 'SDXL + Jewelry LoRA',
+             'Style_LoRA': 'SDXL + Style LoRA (LCM)', // Example: Style LoRA
+             'Corporate_Mock': 'Corporate Mock Generator'
+        };
+
+
+        // --- Helper Functions ---
+        function showMessage(element, message, type = 'info', duration = 6000) {
+            element.textContent = message;
+            element.className = 'message ' + type;
+            element.classList.remove('hidden');
+            if (duration > 0) {
+                 setTimeout(() => element.classList.add('hidden'), duration);
+            }
+        }
+
+        function updateUIBasedOnTierAndModel() {
+            if (currentUserTier) {
+                // --- User is logged in ---
+                loginSection.classList.add('hidden');
+                appContent.classList.remove('hidden'); // Show the main app content
+
+                loggedInUserName.textContent = usernameInput.value; // Or user's name from login response
+                userTierDisplay.textContent = currentUserTier.charAt(0).toUpperCase() + currentUserTier.slice(1) + ' Tier';
+                userTierDisplay.className = `tier-display ${currentUserTier}`;
+
+                // Manage visibility of upgrade vs corporate selector sections
+                upgradeSection.classList.toggle('hidden', currentUserTier === 'corporate'); // Hide upgrade if corporate
+                corporateModelSelectionDiv.classList.toggle('hidden', currentUserTier !== 'corporate'); // Show corporate selector if corporate
+
+                // Update model name display
+                if (currentUserTier === 'personal') {
+                    currentModelNameSpan.textContent = 'Stable Diffusion 1.5 (Personal)';
+                    currentCorporateModelDisplay.textContent = 'N/A'; // Clear corporate display
+                } else if (currentUserTier === 'corporate') {
+                    // Use the stored selected corporate model key to get its display name
+                    currentModelNameSpan.textContent = CORPORATE_MODELS_MAP[currentCorporateModelKey] || 'Unknown Model';
+                    currentCorporateModelDisplay.textContent = CORPORATE_MODELS_MAP[currentCorporateModelKey] || 'Unknown Model'; // Update corporate selector info
+                    populateCorporateModelSelector(); // Ensure selector buttons are populated and highlighted
+                }
+                 modelInfo.classList.remove('hidden'); // Always show model info when logged in
+
+            } else {
+                // --- User is logged out ---
+                loginSection.classList.remove('hidden'); // Show the login section
+                appContent.classList.add('hidden'); // Hide the main app content
+
+                // Clear displayed info when logged out
+                loggedInUserName.textContent = '';
+                userTierDisplay.textContent = '';
+                userTierDisplay.className = 'tier-display'; // Reset class
+                currentModelNameSpan.textContent = '';
+                currentCorporateModelDisplay.textContent = '';
+                modelInfo.classList.add('hidden');
+                upgradeSection.classList.remove('hidden'); // Show the upgrade message on the login page (or could hide it)
+                corporateModelSelectionDiv.classList.add('hidden'); // Hide corporate selector when logged out
+
+                // Reset image display
+                 generatedImage.style.display = 'none';
+                 imageInfo.textContent = 'Image will appear here.';
+
+                 // Clean up Blob URL on logout
+                if (lastGeneratedImageUrl) {
+                    URL.revokeObjectURL(lastGeneratedImageUrl);
+                    lastGeneratedImageUrl = null;
+                }
+            }
+        }
+
+        function populateCorporateModelSelector() {
+            // Clear existing buttons
+            corporateModelButtonsDiv.innerHTML = '';
+            // Add a button for each available corporate model
+            Object.keys(CORPORATE_MODELS_MAP).forEach(modelKey => {
+                const btn = document.createElement('button');
+                btn.textContent = CORPORATE_MODELS_MAP[modelKey]; // Use descriptive name for button
+                // Add a data attribute to store the model key
+                btn.setAttribute('data-model-key', modelKey);
+                btn.onclick = () => handleSelectCorporateModel(modelKey);
+                // Highlight the currently selected button
+                 if (modelKey === currentCorporateModelKey) {
+                      btn.style.backgroundColor = '#025aa5'; // Darker blue for selected
+                 } else {
+                      btn.style.backgroundColor = '#0275d8'; // Default blue
+                 }
+                corporateModelButtonsDiv.appendChild(btn);
+            });
+        }
+
+
+        // --- Event Handlers ---
+        async function handleLogin() {
+            if (!API_BASE_URL || API_BASE_URL === "https://YOUR_NGROK_URL_HERE.ngrok-free.app") {
+                showMessage(loginMessage, "CRITICAL ERROR: API_BASE_URL is not set correctly in the script! Please replace the placeholder.", "error", 0);
+                return;
+            }
+            const username = usernameInput.value;
+            const password = passwordInput.value;
+            showMessage(loginMessage, "Attempting login...", "info", 0);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/login/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    isLoggedIn = true;
+                    currentUserId = data.user_id;
+                    currentUserTier = data.tier;
+                    // Get initial corporate model from server response, default if not provided
+                    currentCorporateModelKey = data.selected_corporate_model || Object.keys(CORPORATE_MODELS_MAP)[0] || null;
+
+                    showMessage(loginMessage, data.message, "success");
+                    updateUIBasedOnTierAndModel(); // Update UI after successful login
+
+                } else {
+                    // Login failed
+                    currentUserTier = null; // Ensure tier is null on failed login
+                    currentCorporateModelKey = null;
+                    isLoggedIn = false;
+                    currentUserId = null;
+                    updateUIBasedOnTierAndModel(); // Update UI to show login form again
+                    throw new Error(data.detail || "Login failed due to server error");
+                }
+            } catch (error) {
+                showMessage(loginMessage, `Login Error: ${error.message}`, "error");
+                console.error("Login error details:", error);
+            }
+        }
+
+        function handleLogout() {
+            isLoggedIn = false;
+            currentUserId = null;
+            currentUserTier = null;
+            currentCorporateModelKey = null; // Clear corporate model selection on logout
+            updateUIBasedOnTierAndModel(); // Update UI to show login form
+
+            showMessage(loginMessage, "You have been logged out.", "info");
+             // Clear login input fields
+             usernameInput.value = '';
+             passwordInput.value = '';
+        }
+
+         // Function to handle selection of a corporate model
+        async function handleSelectCorporateModel(modelKey) {
+            if (!isLoggedIn || currentUserTier !== 'corporate') {
+                showMessage(corporateModelSelectionMessage, "You must be a Corporate user to select models.", "warning", 5000);
+                return;
+            }
+             if (!API_BASE_URL || API_BASE_URL === "https://YOUR_NGROK_URL_HERE.ngrok-free.app") {
+                showMessage(corporateModelSelectionMessage, "CRITICAL ERROR: API_BASE_URL is not set correctly!", "error", 0);
+                return;
+            }
+            if (modelKey === currentCorporateModelKey) {
+                 showMessage(corporateModelSelectionMessage, `${CORPORATE_MODELS_MAP[modelKey]} is already the current model.`, "info", 3000);
+                 return;
+            }
+            if (!CORPORATE_MODELS_MAP.hasOwnProperty(modelKey)) {
+                 showMessage(corporateModelSelectionMessage, `Invalid model selection: ${modelKey}`, "error", 5000);
+                 return;
+            }
+
+
+            showMessage(corporateModelSelectionMessage, `Attempting to set model to ${CORPORATE_MODELS_MAP[modelKey]}...`, "info", 0);
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/select-corporate-model/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ model_key: modelKey }) // Send the internal key
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Update frontend state and display
+                    currentCorporateModelKey = data.selected_model_key; // Use key returned by server
+                    updateUIBasedOnTierAndModel(); // Update UI, including highlighting button
+                    showMessage(corporateModelSelectionMessage, data.message, "success", 5000);
+
+                } else {
+                    throw new Error(data.detail || `Failed to select model: ${response.statusText}`);
+                }
+            } catch (error) {
+                showMessage(corporateModelSelectionMessage, `Model Selection Error: ${error.message}`, "error", 10000);
+                console.error("Model selection error details:", error);
+            }
+        }
+
+
+        // Mock function to simulate upgrading tier
+        function mockUpgrade() {
+            if (!isLoggedIn) {
+                showMessage(upgradeMessage, "Please login first.", "warning");
+                return;
+            }
+            if (currentUserTier === 'corporate') {
+                 showMessage(upgradeMessage, "You are already a Corporate user!", "info");
+                 return;
+            }
+
+            // --- Mock Logic: Client-side change only ---
+            currentUserTier = 'corporate';
+            // When upgrading, default to the first corporate model (Jewelry_LoRA)
+            currentCorporateModelKey = Object.keys(CORPORATE_MODELS_MAP)[0] || null; // Set default corporate model key
+            updateUIBasedOnTierAndModel(); // Update UI
+            showMessage(upgradeMessage, "Congratulations! You have been 'upgraded' to the Corporate Tier (Mock Implementation). You can now select models and generate advanced images!", "success", 10000);
+            // In a real app, you'd redirect to payment, then handle backend tier update after payment success.
+            // --- End Mock Logic ---
+        }
+
+
+        async function handleGenerateClick() {
+            if (!isLoggedIn) { showMessage(generationMessage, "Please login first.", "error"); return; }
+             if (!API_BASE_URL || API_BASE_URL === "https://YOUR_NGROK_URL_HERE.ngrok-free.app") {
+                showMessage(generationMessage, "CRITICAL ERROR: API_BASE_URL is not set correctly!", "error", 0);
+                return;
+            }
+
+            const prompt = promptInput.value.trim();
+            if (!prompt) { showMessage(generationMessage, "Please enter a prompt.", "warning"); return; }
+
+            generateBtn.disabled = true;
+            // Get the display name for the loading message
+            const modelDisplayName = currentUserTier === 'personal' ? 'Stable Diffusion 1.5 (Personal)' : CORPORATE_MODELS_MAP[currentCorporateModelKey] || 'your selected corporate model';
+            showMessage(generationMessage, `Generating image using ${modelDisplayName}... This may take a minute or two. Please wait.`, "info", 0);
+            imageInfo.textContent = "Generating...";
+            generatedImage.style.display = 'none'; // Hide previous image
+
+            // Clean up previous Blob URL to free memory
+            if (lastGeneratedImageUrl) {
+                URL.revokeObjectURL(lastGeneratedImageUrl);
+                lastGeneratedImageUrl = null;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/generate-image/`, { // Endpoint name must match server
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                if (response.ok) {
+                    const imageBlob = await response.blob();
+                    lastGeneratedImageUrl = URL.createObjectURL(imageBlob); // Create new blob URL
+                    generatedImage.src = lastGeneratedImageUrl;
+                    generatedImage.style.display = 'block';
+                    imageInfo.textContent = `Generated using: ${response.headers.get('X-Generator-Name') || modelDisplayName}`; // Use header if available
+
+                    showMessage(generationMessage, "Image generated successfully!", "success");
+
+                } else {
+                     imageInfo.textContent = "Generation failed.";
+                    try {
+                         const errorData = await response.json();
+                         showMessage(generationMessage, `Error generating image: ${errorData.detail || response.statusText}`, "error");
+                         console.error("Server error details:", errorData);
+                    } catch (jsonError) {
+                         showMessage(generationMessage, `Error generating image: Server returned status ${response.status} ${response.statusText}`, "error");
+                         console.error("Server response was not JSON:", await response.text());
+                    }
+
+                }
+
+            } catch (error) {
+                 imageInfo.textContent = "Generation failed.";
+                showMessage(generationMessage, `Network error: Could not connect to the server or request failed. ${error}`, "error");
+                console.error("Fetch error details:", error);
+            } finally {
+                generateBtn.disabled = false;
+            }
+        }
+
+
+        // --- Initial Setup ---
+        // Call updateUIBasedOnTierAndModel initially to set the correct state (logged out)
+        currentUserTier = null; // Ensure initial state is logged out
+        updateUIBasedOnTierAndModel();
+
+        // Populate corporate model buttons even if section is hidden
+        populateCorporateModelSelector();
+
+
+        // Attach event listeners
+        generateBtn.addEventListener('click', handleGenerateClick);
+        promptInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                handleGenerateClick();
+            }
+        });
+
+        showMessage(loginMessage, "Please log in to start.", "info");
+
+
+    </script>
+
+</body>
+</html>
